@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-32343386-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-32343386-5');
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ description }}" />
+    <meta name="og:description" content="{{ description }}">
+    <meta name="og:image" content="http://midnightathletics.com/static/banner.png">
+    <meta name="og:title" content="{{ title }}">
+    <meta name="og:type" content="music.radio_station">
+    <meta name="og:url" content="http://midnightathletics.com/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
+        <p><img class="img-fluid" src="{{ url_for('static', filename='banner.png') }}" alt="The Midnight Athletics studio" /></p>
+    </div>
+    <div class="container">
+        <p>
+            <audio controls>
+                <source src="http://midnightathletics.com:8000/stream.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </p>
+        <p><span id="now-playing">Now playing: ...</span></p>
+        <p><span id="num-listeners">Listening: ...</span></p>
+    </div>
+    <div class="container">
+        <p>
+            If you don't want to use our player use these links:
+            <a href="http://midnightathletics.com:8000/stream.mp3" target="_blank">192k</a>,
+            <a href="http://midnightathletics.com:8000/stream128.mp3" target="_blank">128k</a>.
+        </p>
+        <p>
+            Want to contribute?
+            Open an issue <a href="https://github.com/cburmeister/midnightathletics/issues" target="_blank">here</a>
+            or <a href="mailto:burmeister.corey@gmail.com" target="_blank">contact me</a>.
+        </p>
+        <p>You can also buy me a beer <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HVRCBXZJENFMC" target="_blank">here</a>.</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

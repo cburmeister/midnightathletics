@@ -1,0 +1,31 @@
+version: "3"
+services:
+  app:
+    image: tiangolo/uwsgi-nginx-flask:python3.6
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/app
+      - /etc/localtime:/etc/localtime:ro
+  icecast:
+    image: moul/icecast:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./icecast.xml:/etc/icecast2/icecast.xml
+      - /etc/localtime:/etc/localtime:ro
+  liquidsoap:
+    environment:
+      - ICECAST_HOST=icecast
+      - ICECAST_PORT=8000
+      - ICECAST_SOURCE_PASSWORD
+      - LIQUIDSOAP_HARBOR_PORT
+    command: liquidsoap -v --debug /liquidsoap/liquidsoap.liq
+    image: moul/liquidsoap:latest
+    ports:
+      - 8800:8800
+    user: liquidsoap
+    volumes:
+      - ./liquidsoap.liq:/liquidsoap/liquidsoap.liq
+      - ${LIQUIDSOAP_DATA}:/data
+      - /etc/localtime:/etc/localtime:ro
