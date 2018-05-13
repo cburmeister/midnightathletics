@@ -42,15 +42,29 @@ output.icecast(
 )
 
 output.icecast(
-    %mp3(bitrate=128),
+    %aac(bitrate=128),
     stream,
     host=getenv('ICECAST_HOST'),
     port=int_of_string(getenv('ICECAST_PORT')),
     password=getenv('ICECAST_SOURCE_PASSWORD'),
-    mount='stream128.mp3',
+    mount='stream128.aac',
     name='Midnight Athletics Radio',
     genre='House & Techno',
     description='Commercial free radio featuring contemporary underground dance music from around the world.',
-    url='http://midnightathletics.com:8000/stream128.mp3',
+    url='http://midnightathletics.com:8000/stream128.aac',
+    fallible=true
+)
+
+output.icecast(
+    %aac(bitrate=64),
+    stream,
+    host=getenv('ICECAST_HOST'),
+    port=int_of_string(getenv('ICECAST_PORT')),
+    password=getenv('ICECAST_SOURCE_PASSWORD'),
+    mount='stream64.aac',
+    name='Midnight Athletics Radio',
+    genre='House & Techno',
+    description='Commercial free radio featuring contemporary underground dance music from around the world.',
+    url='http://midnightathletics.com:8000/stream64.aac',
     fallible=true
 )
