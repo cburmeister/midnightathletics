@@ -37,7 +37,7 @@ output.icecast(
     name='Midnight Athletics Radio',
     genre='House & Techno',
     description='Commercial free radio featuring contemporary underground dance music from around the world.',
-    url='https://midnightathletics.com/',
+    url='http://midnightathletics.com:8000/stream.mp3',
     fallible=true
 )
 
@@ -51,6 +51,6 @@ output.icecast(
     name='Midnight Athletics Radio',
     genre='House & Techno',
     description='Commercial free radio featuring contemporary underground dance music from around the world.',
-    url='https://midnightathletics.com/',
+    url='http://midnightathletics.com:8000/stream128.mp3',
     fallible=true
 )
