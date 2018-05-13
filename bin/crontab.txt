@@ -1,1 +1,2 @@
 */10 * * * * /root/midnightathletics/bin/poll-icecast-status.sh > /dev/null 2>&1
+@daily /root/midnightathletics/bin/sync-mixes.sh > /dev/null 2>&1
