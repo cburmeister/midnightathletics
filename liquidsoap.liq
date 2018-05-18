@@ -2,7 +2,7 @@
 
 set('harbor.bind_addr', '0.0.0.0')
 
-mixes = playlist('/data/mixes')
+mixes = playlist(mode='random', '/data/mixes')
 
 def update_metadata(m) =
     print('#{m}')
