@@ -1,28 +1,6 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-32343386-5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+{% extends 'template.html' %}
 
-      gtag('config', 'UA-32343386-5');
-    </script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="{{ description }}" />
-    <meta name="og:description" content="{{ description }}">
-    <meta name="og:image" content="http://midnightathletics.com/static/banner.png">
-    <meta name="og:title" content="{{ title }}">
-    <meta name="og:type" content="music.radio_station">
-    <meta name="og:url" content="http://midnightathletics.com/">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>{{ title }}</title>
-  </head>
-  <body>
+{% block body %}
     <div class="container">
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
@@ -52,9 +30,5 @@
         </p>
         <p>You can also buy me a beer <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HVRCBXZJENFMC" target="_blank">here</a>.</p>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
-  </body>
-</html>
+{% endblock %}

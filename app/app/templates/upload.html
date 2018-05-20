@@ -1,0 +1,17 @@
+{% extends 'template.html' %}
+
+{% block body %}
+    <div class="container">
+        <form action="{{ url_for('upload') }}" method="POST">
+            <div class="form-group">
+                <label for="url">URL</label>
+                <input class="form-control" name="url" placeholder="Enter Mixcloud/Soundcloud URL...">
+            </div>
+            <div class="form-group">
+                <label for="filename">Filename</label>
+                <input class="form-control" name="filename" placeholder="Enter a canonical filename for this upload...">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

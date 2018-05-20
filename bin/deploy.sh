@@ -26,6 +26,7 @@ if [ -n "$ICECAST_SOURCE_PASSWORD" ]; then
 fi
 
 # Recycle the docker compose services
+docker-compose build
 docker-compose stop
 docker-compose rm --force
 docker-compose up -d --no-recreate
