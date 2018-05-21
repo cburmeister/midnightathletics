@@ -1,17 +1,10 @@
 {% extends 'template.html' %}
 
 {% block body %}
-    <img class="img-fluid banner" src="{{ url_for('static', filename='banner.jpg') }}" alt="The Midnight Athletics studio" />
     <div class="container mt-4">
         <p class="lead">{{ app_description }}</p>
     </div>
     <div class="container">
-        <p>
-            <audio controls>
-                <source src="http://midnightathletics.com:8000/stream.mp3" type="audio/mp3">
-                Your browser does not support the audio element.
-            </audio>
-        </p>
         <p><span id="now-playing">Now playing: ...</span></p>
         <p><span id="num-listeners">Listening: ...</span></p>
         <p>
@@ -27,5 +20,4 @@
         </p>
         <p>You can also buy me a beer <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HVRCBXZJENFMC" target="_blank">here</a>.</p>
     </div>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
 {% endblock %}

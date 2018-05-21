@@ -20,15 +20,13 @@
         <meta name="og:url" content="{{ app_url }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <title>{{ app_title }}</title>
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" href="{{ app_url }}">{{ app_title }}</a>
         </nav>
+        <img class="img-fluid banner" src="{{ url_for('static', filename='banner.jpg') }}" alt="The Midnight Athletics studio" />
         {% with messages = get_flashed_messages(with_categories=True) %}
             <div class="container">
             {% for category, message in messages %}
@@ -37,5 +35,15 @@
             </div>
         {% endwith %}
         {% block body %}{% endblock %}
+        <nav class="navbar fixed-bottom navbar-light bg-light">
+            <audio controls>
+                <source src="http://midnightathletics.com:8000/stream.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </nav>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="{{ url_for('static', filename='app.js') }}"></script>
     </body>
 </html>
