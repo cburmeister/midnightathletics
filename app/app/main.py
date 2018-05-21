@@ -8,6 +8,15 @@ import youtube_dl
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
+app.jinja_env.globals.update({
+    'app_title': 'Midnight Athletics Radio',
+    'app_description': (
+        'Commercial free radio featuring contemporary underground dance '
+        'music from around the world.'
+    ),
+    'app_url': 'http://midnightathletics.com/',
+})
+
 auth = HTTPBasicAuth()
 
 
@@ -18,12 +27,7 @@ def get_pw(username):
 
 @app.route('/', methods=['GET'])
 def root():
-    title = 'Midnight Athletics Radio'
-    description = (
-        'Commercial free radio featuring contemporary underground dance '
-        'music from around the world.'
-    )
-    return render_template('root.html', title=title, description=description)
+    return render_template('root.html')
 
 
 @app.route('/upload', methods=['GET', 'POST'])

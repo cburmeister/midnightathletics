@@ -12,27 +12,30 @@
         </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="{{ description }}" />
-        <meta name="og:description" content="{{ description }}">
-        <meta name="og:image" content="http://midnightathletics.com/static/banner.png">
-        <meta name="og:title" content="{{ title }}">
+        <meta name="description" content="{{ app_description }}" />
+        <meta name="og:description" content="{{ app_description }}">
+        <meta name="og:image" content="{{ app_url ~ '/static/banner.png' }}">
+        <meta name="og:title" content="{{ app_title }}">
         <meta name="og:type" content="music.radio_station">
-        <meta name="og:url" content="http://midnightathletics.com/">
+        <meta name="og:url" content="{{ app_url }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <title>{{ title }}</title>
+        <title>{{ app_title }}</title>
     </head>
     <body>
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=True) %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
-                {% endfor %}
-            {% endwith %}
-        </div>
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ app_url }}">{{ app_title }}</a>
+        </nav>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            <div class="container">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endwith %}
         {% block body %}{% endblock %}
     </body>
 </html>

@@ -1,10 +1,9 @@
 {% extends 'template.html' %}
 
 {% block body %}
-    <div class="container">
-        <h1>{{ title }}</h1>
-        <p>{{ description }}</p>
-        <p><img class="img-fluid" src="{{ url_for('static', filename='banner.png') }}" alt="The Midnight Athletics studio" /></p>
+    <img class="img-fluid banner" src="{{ url_for('static', filename='banner.jpg') }}" alt="The Midnight Athletics studio" />
+    <div class="container mt-4">
+        <p class="lead">{{ app_description }}</p>
     </div>
     <div class="container">
         <p>
@@ -15,8 +14,6 @@
         </p>
         <p><span id="now-playing">Now playing: ...</span></p>
         <p><span id="num-listeners">Listening: ...</span></p>
-    </div>
-    <div class="container">
         <p>
             If you don't want to use our player use these links:
             <a href="http://midnightathletics.com:8000/stream.mp3" target="_blank">192k</a> MP3,
