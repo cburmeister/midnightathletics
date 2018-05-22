@@ -39,12 +39,7 @@ def upload():
         if not url or not filename:
             flash('URL and filename required.', category='danger')
         try:
-            ydl_args = {
-                'outtmpl': '{}/{}.%(ext)s'.format(
-                    os.environ['LIQUIDSOAP_DATA'],
-                    filename
-                )
-            }
+            ydl_args = {'outtmpl': '/data/mixes/{}.%(ext)s'.format(filename)}
             with youtube_dl.YoutubeDL(ydl_args) as ydl:
                 ydl.download([url])
             flash('Uploaded {}'.format(filename), category='success')

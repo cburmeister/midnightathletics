@@ -5,6 +5,7 @@ services:
     ports:
       - 80:80
     volumes:
+      - ${LIQUIDSOAP_DATA}:/data
       - ./app:/app
       - /etc/localtime:/etc/localtime:ro
     environment:
