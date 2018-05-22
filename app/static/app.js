@@ -1,3 +1,7 @@
+const player = new Plyr("#player", {
+    "controls": ["play-large", "play", "mute", "volume", "airplay"],
+});
+
 function poll_icecast_status() {
     $.getJSON("http://midnightathletics.com:8000/status-json.xsl", function(json) {
         var listeners = 0;

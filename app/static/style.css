@@ -1,3 +1,7 @@
 audio {
     width: 100%;
 }
+
+.plyr__controls {
+    background-color: #f8f9fa!important
+}
