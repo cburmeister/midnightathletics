@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 import os
 
-from flask import Flask, flash, render_template, request
+from flask import Flask, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
+from requests.status_codes import codes as status_codes
 import youtube_dl
 
 app = Flask(__name__)
@@ -28,6 +29,13 @@ def get_pw(username):
 @app.route('/', methods=['GET'])
 def root():
     return render_template('root.html')
+
+
+@app.route('/mixes.json', methods=['GET'])
+@auth.login_required
+def mixes():
+    mixes = os.listdir('/data/mixes')
+    return jsonify(mixes), status_codes.OK
 
 
 @app.route('/upload', methods=['GET', 'POST'])
