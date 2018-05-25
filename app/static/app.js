@@ -8,7 +8,7 @@ function poll_icecast_status() {
         $.each(json.icestats.source, function(i, source){
             listeners = listeners + source.listeners;
         });
-        $("#now-playing").text("Now playing: " + json.icestats.source[0].title);
+        $("#now-playing").text(json.icestats.source[0].title);
         $("#num-listeners").text("Listeners: " + listeners);
     });
 }

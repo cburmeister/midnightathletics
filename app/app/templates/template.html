@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="{{ app_description }}" />
         <meta name="og:description" content="{{ app_description }}">
-        <meta name="og:image" content="{{ app_url ~ '/static/banner.jpg' }}">
+        <meta name="og:image" content="{{ app_url ~ '/static/images/banner.jpg' }}">
         <meta name="og:title" content="{{ app_title }}">
         <meta name="og:type" content="music.radio_station">
         <meta name="og:url" content="{{ app_url }}">
@@ -27,13 +27,24 @@
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" href="{{ app_url }}">{{ app_title }}</a>
         </nav>
-        <img class="img-fluid banner" src="{{ url_for('static', filename='banner.jpg') }}" alt="The Midnight Athletics studio" />
+        <div class="container-fluid banner shadow">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 text-center">
+                    <div class="p-5 d-none d-sm-block">
+                        <h1 class="text-white d-none d-sm-block">Midnight Athletics Radio</h1>
+                        <p class="lead text-white">{{ app_description }}</p>
+                    </div>
+                    <div class="p-4 d-block d-sm-none">
+                        <h1 class="text-white d-none d-sm-block">Midnight Athletics Radio</h1>
+                        <p class="lead text-white">{{ app_description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% with messages = get_flashed_messages(with_categories=True) %}
-            <div class="container">
             {% for category, message in messages %}
                 <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
             {% endfor %}
-            </div>
         {% endwith %}
         {% block body %}{% endblock %}
         <nav class="navbar fixed-bottom navbar-light bg-light justify-content-center">

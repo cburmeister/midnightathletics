@@ -2,6 +2,15 @@ audio {
     width: 100%;
 }
 
+body {
+    margin-bottom: 80px;
+}
+
 .plyr__controls {
     background-color: #f8f9fa!important
+}
+
+.banner {
+    background-size: 100%;
+    background-image: url("/static/images/banner.jpg");
 }
