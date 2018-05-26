@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import os
+import telnetlib
 
 from flask import Flask, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
@@ -36,6 +37,14 @@ def root():
 def mixes():
     mixes = os.listdir('/data/mixes')
     return jsonify(mixes), status_codes.OK
+
+
+@app.route('/skip', methods=['POST'])
+@auth.login_required
+def skip():
+    with telnetlib.Telnet('liquidsoap', 1234) as tn:
+        tn.write(b'stream(dot)mp3.skip' + b'\n')
+    return 'Mix skipped.', status_codes.OK
 
 
 @app.route('/upload', methods=['GET', 'POST'])
