@@ -4,10 +4,13 @@
 set('server.telnet', true)
 set('server.telnet.bind_addr', '0.0.0.0')
 
+# Activate the live stream input
 set('harbor.bind_addr', '0.0.0.0')
 
+# Begin the source by randomizing mixes from a directory
 mixes = playlist(mode='random', '/data/mixes')
 
+# Munge the audio file metadata to a somewhat standardized format
 def update_metadata(m) =
     print('#{m}')
     title = m['filename']
@@ -20,10 +23,9 @@ def update_metadata(m) =
     title = string.concat(separator=' ', title)
     [('title', '#{title}')]
 end
-
 mixes = map_metadata(update_metadata, mixes)
 
-# Add a skip function to a source when it does not have one by default
+# Add a server command that will skip the current audio file
 def add_skip_command(s) =
     # A command to skip
     def skip(_) =
@@ -39,17 +41,17 @@ def add_skip_command(s) =
         skip
     )
 end
-
 add_skip_command(mixes)
 
+# Configure the live input
 live = input.harbor(
     'live',
     port=int_of_string(getenv('LIQUIDSOAP_HARBOR_PORT')),
     password=getenv('ICECAST_SOURCE_PASSWORD')
 )
-
 stream = fallback(track_sensitive=false, [live, mixes])
 
+# Stream the output in 192kpbs MP3
 output.icecast(
     %mp3(bitrate=192),
     stream,
@@ -64,6 +66,7 @@ output.icecast(
     fallible=true
 )
 
+# Stream the output in 128kpbs AAC
 output.icecast(
     %aac(bitrate=128),
     stream,
@@ -78,6 +81,7 @@ output.icecast(
     fallible=true
 )
 
+# Stream the output in 64kpbs AAC
 output.icecast(
     %aac(bitrate=64),
     stream,
