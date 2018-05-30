@@ -3,7 +3,7 @@ const player = new Plyr("#player", {
 });
 
 function poll_icecast_status() {
-    $.getJSON("http://midnightathletics.com:8000/status-json.xsl", function(json) {
+    $.getJSON("http://radio.midnightathletics.com/status-json.xsl", function(json) {
         var listeners = 0;
         $.each(json.icestats.source, function(i, source){
             listeners = listeners + source.listeners;
