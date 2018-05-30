@@ -12,4 +12,7 @@ function poll_icecast_status() {
         $("#num-listeners").text("Listeners: " + listeners);
     });
 }
+
+poll_icecast_status();
+
 setInterval(poll_icecast_status, 5000);
