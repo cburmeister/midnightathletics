@@ -1,3 +1,5 @@
 Flask-HTTPAuth==3.2.3
+gspread==3.0.0
+oauth2client==4.1.2
 requests==2.18.4
 youtube-dl==2018.05.18

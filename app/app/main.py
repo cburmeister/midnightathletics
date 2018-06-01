@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
+from itertools import zip_longest
 import os
 import telnetlib
 
-from flask import Flask, flash, render_template, request, jsonify
+from flask import Flask, abort, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
 from requests.status_codes import codes as status_codes
-import youtube_dl
+
+from app.gsheet import get_google_sheet
+from app.mix import download_mix, serialize_mix
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
@@ -24,6 +27,7 @@ auth = HTTPBasicAuth()
 
 @auth.get_password
 def get_pw(username):
+    """Returns the password required for certain endpoints."""
     return os.environ['ICECAST_SOURCE_PASSWORD']
 
 
@@ -32,19 +36,26 @@ def root():
     return render_template('root.html')
 
 
-@app.route('/mixes.json', methods=['GET'])
+@app.route('/mixes', methods=['GET'])
 @auth.login_required
 def mixes():
-    mixes = os.listdir('/data/mixes')
-    return jsonify(mixes), status_codes.OK
+    sheet = get_google_sheet()
+    payload = [serialize_mix(x) for x in sheet.get_all_records()]
+    return jsonify(payload), status_codes.OK
 
 
-@app.route('/skip', methods=['POST'])
+@app.route('/mixes/<id>', methods=['GET'])
 @auth.login_required
-def skip():
-    with telnetlib.Telnet('liquidsoap', 1234) as tn:
-        tn.write(b'stream(dot)mp3.skip' + b'\n')
-    return 'Mix skipped.', status_codes.OK
+def get_mix(id):
+    sheet = get_google_sheet()
+    cell = sheet.find(id)
+    if not cell:
+        abort(404)
+    head = sheet.row_values(1)
+    row_values = sheet.row_values(cell.row)
+    row = dict(zip_longest(head, row_values, fillvalue=''))
+    payload = serialize_mix(row)
+    return jsonify(payload), status_codes.OK
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -56,13 +67,25 @@ def upload():
         if not url or not filename:
             flash('URL and filename required.', category='danger')
         try:
-            ydl_args = {'outtmpl': '/data/mixes/{}.%(ext)s'.format(filename)}
-            with youtube_dl.YoutubeDL(ydl_args) as ydl:
-                ydl.download([url])
+            filename = download_mix(url, filename)
+            sheet = get_google_sheet()
+            sheet.append_row([
+                filename,
+                request.form.get('discogs_artist_ids'),
+                request.form.get('mixes_db_url'),
+            ])
             flash('Uploaded {}'.format(filename), category='success')
-        except youtube_dl.utils.DownloadError as e:
+        except Exception as e:
             flash(str(e), category='danger')
     return render_template('upload.html')
+
+
+@app.route('/skip', methods=['POST'])
+@auth.login_required
+def skip():
+    with telnetlib.Telnet('liquidsoap', 1234) as tn:
+        tn.write(b'stream(dot)mp3.skip' + b'\n')
+    return 'Mix skipped.', status_codes.OK
 
 
 if __name__ == '__main__':
