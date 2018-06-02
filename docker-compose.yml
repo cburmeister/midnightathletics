@@ -10,6 +10,7 @@ services:
   app:
     build: ./app/
     environment:
+      - DISCOGS_API_TOKEN
       - ICECAST_SOURCE_PASSWORD
       - LIQUIDSOAP_DATA
       - SECRET_KEY

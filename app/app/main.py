@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from itertools import zip_longest
+import json
 import os
 import telnetlib
 
@@ -7,6 +8,7 @@ from flask import Flask, abort, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
 from requests.status_codes import codes as status_codes
 
+from app.discogs import get_artist_data
 from app.gsheet import get_google_sheet
 from app.mix import download_mix, serialize_mix
 
@@ -40,7 +42,7 @@ def root():
 @auth.login_required
 def mixes():
     sheet = get_google_sheet()
-    payload = [serialize_mix(x) for x in sheet.get_all_records()]
+    payload = [x['id'] for x in sheet.get_all_records()]
     return jsonify(payload), status_codes.OK
 
 
@@ -67,13 +69,28 @@ def upload():
         if not url or not filename:
             flash('URL and filename required.', category='danger')
         try:
+
+            # Download mix using youtube-dl
             filename = download_mix(url, filename)
+
+            # Gather artist data from Discogs
+            discogs_artist_ids = [
+                int(x.strip()) for x
+                in request.form.get('discogs_artist_ids').split(',')
+            ]
+            artist_data = []
+            for artist_id in discogs_artist_ids:
+                artist_data.extend(get_artist_data(artist_id))
+
+            # Log the mix in the google sheet
             sheet = get_google_sheet()
             sheet.append_row([
                 filename,
                 request.form.get('discogs_artist_ids'),
                 request.form.get('mixes_db_url'),
+                json.dumps(artist_data),
             ])
+
             flash('Uploaded {}'.format(filename), category='success')
         except Exception as e:
             flash(str(e), category='danger')
