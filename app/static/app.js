@@ -14,5 +14,4 @@ function poll_icecast_status() {
 }
 
 poll_icecast_status();
-
-setInterval(poll_icecast_status, 5000);
+setInterval(poll_icecast_status, 10000);
