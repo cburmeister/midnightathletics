@@ -20,5 +20,6 @@ The following environment variables are *required*:
 | `LIQUIDSOAP_HARBOR_PORT`  | Port used to connect when livestreaming.                      |
 | `LIQUIDSOAP_VIRTUAL_HOST` | Hostname of the `liquidsoap` server. (used by `nginx-proxy`)  |
 | `S3_ACCESS_KEY_ID`        | An AWS provisioned secret key id used to communicate with s3. |
+| `S3_BUCKET_NAME`          | The name of the s3 bucket containing audio.                   |
 | `S3_SECRET_ACCESS_KEY`    | An AWS provisioned secret key used to communicate with s3.    |
 | `SECRET_KEY`              | A secret key required by the `app` to provide authentication. |
