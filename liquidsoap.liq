@@ -21,9 +21,9 @@ def update_metadata(m) =
     title = list.remove(extension, title)
     title = list.map(string.capitalize, list.rev(title))
     title = string.concat(separator=' ', title)
-    [('title', '#{title}')]
+    [('artist', ''), ('title', '#{title}')]
 end
-mixes = map_metadata(update_metadata, mixes)
+mixes = map_metadata(strip=true, update_metadata, mixes)
 
 # Add a server command that will skip the current audio file
 def add_skip_command(s) =
