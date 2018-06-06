@@ -8,10 +8,10 @@ from flask import Flask, abort, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
 from requests.status_codes import codes as status_codes
 
-from app.discogs import get_artist_data
-from app.gsheet import get_google_sheet
-from app.mix import download_mix, serialize_mix
-from app.s3 import upload_file_to_s3
+from lib.discogs import get_artist_data
+from lib.gsheet import get_google_sheet
+from lib.mix import download_mix, serialize_mix
+from lib.s3 import upload_file_to_s3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
