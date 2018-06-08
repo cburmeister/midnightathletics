@@ -16,11 +16,6 @@ def update_metadata(m) =
     title = m['filename']
     title = string.split(separator='/', title)
     title = list.nth(list.rev(title), 0)
-    title = string.split(separator='\.', title)
-    extension = list.nth(list.rev(title), 0)
-    title = list.remove(extension, title)
-    title = list.map(string.capitalize, list.rev(title))
-    title = string.concat(separator=' ', title)
     [('artist', ''), ('title', '#{title}')]
 end
 mixes = map_metadata(strip=true, update_metadata, mixes)
