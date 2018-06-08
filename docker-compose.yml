@@ -19,6 +19,7 @@ services:
       - SECRET_KEY
       - VIRTUAL_HOST=${APP_VIRTUAL_HOST}
       - VIRTUAL_PORT=5000
+      - SENTRY_DSN
     ports:
       - "5000:5000"
     restart: always

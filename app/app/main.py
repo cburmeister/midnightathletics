@@ -6,6 +6,7 @@ import telnetlib
 
 from flask import Flask, abort, flash, render_template, request, jsonify
 from flask_httpauth import HTTPBasicAuth
+from raven.contrib.flask import Sentry
 from requests.status_codes import codes as status_codes
 from werkzeug.contrib.cache import FileSystemCache
 import requests
@@ -31,6 +32,8 @@ auth = HTTPBasicAuth()
 
 cache = FileSystemCache('/tmp', default_timeout=60)
 
+sentry = Sentry(app)
+
 
 @auth.get_password
 def get_pw(username):
@@ -55,8 +58,9 @@ def mixes():
 @auth.login_required
 def get_mix(id):
     sheet = get_google_sheet()
-    cell = sheet.find(id)
-    if not cell:
+    try:
+        cell = sheet.find(id)
+    except Exception:
         abort(404)
     head = sheet.row_values(1)
     row_values = sheet.row_values(cell.row)
