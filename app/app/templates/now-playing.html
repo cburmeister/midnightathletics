@@ -1,0 +1,85 @@
+<div class="container mt-3 mb-3">
+    <div class="card">
+        <div class="card-header">Now playing</div>
+        <div class="card-body">
+            <h5 class="card-title">{{ data.title }}</h5>
+            <p class="card-text">Listening: {{ data.listeners }}</p>
+        </div>
+    </div>
+</div>
+{% with artist_data = data.artist_data %}
+    <div class="container mb-3">
+        <div class="card-columns">
+            {% for artist in data.artist_data %}
+                <div class="card">
+                    <div class="card-header">About the artist</div>
+                    <div class="card-body">
+                        <h5 class="card-title{{ ' mb-0' if not artist.profile }}">
+                            <a href="{{ artist.uri }}" target="_blank">{{ artist.name }}</a>
+                        </h5>
+                        {% if artist.profile %}
+                            <p class="card-text">{{ artist.profile|truncate }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if artist.get('images', [])|length > 0 %}
+                    {% with img = artist.get('images', []).pop(0) %}
+                        {% if img %}
+                            <div class="card">
+                                <img class="card-img" src="{{ img.uri }}" alt="{{ artist.name }}">
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                {% if artist.urls %}
+                    <div class="card">
+                        <div class="card-header">Follow them elsewhere</div>
+                        <ul class="list-group list-group-flush">
+                            {% for url in artist.urls %}
+                                {% if 'myspace' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">MySpace</a></li>
+                                {% elif 'facebook' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Facebook</a></li>
+                                {% elif 'discogs' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Discogs</a></li>
+                                {% elif 'twitter' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Twitter</a></li>
+                                {% elif 'residentadvisor' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Resident Advisor</a></li>
+                                {% elif 'soundcloud' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Soundcloud</a></li>
+                                {% elif 'instagram' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Instagram</a></li>
+                                {% elif 'mixcloud' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Mixcloud</a></li>
+                                {% elif 'youtube' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">YouTube</a></li>
+                                {% else %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if artist.get('images', [])|length > 1 %}
+                    {% with img = artist.get('images', []).pop(0) %}
+                        {% if img %}
+                            <div class="card">
+                                <img class="card-img" src="{{ img.uri }}" alt="{{ artist.name }}">
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                {% if artist.get('images', [])|length > 2 %}
+                    {% with img = artist.get('images', []).pop(0) %}
+                        {% if img %}
+                            <div class="card">
+                                <img class="card-img" src="{{ img.uri }}" alt="{{ artist.name }}">
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endwith %}

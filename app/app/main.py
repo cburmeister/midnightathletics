@@ -30,6 +30,8 @@ app.jinja_env.globals.update({
 
 auth = HTTPBasicAuth()
 
+# The default TTL for the cache is set to one minute as a simple way to
+# guarantee we only request a resource from the Discogs API once per minute
 cache = FileSystemCache('/tmp', default_timeout=60)
 
 sentry = Sentry(app)
@@ -77,7 +79,10 @@ def now_playing():
     stats = cache.get(cache_key)
     if stats:
         payload = json.loads(stats)
-        return jsonify(payload), status_codes.OK
+        return (
+            render_template('now-playing.html', data=payload),
+            status_codes.OK
+        )
 
     # Otherwise get the now playing title from icecast
     try:
@@ -92,6 +97,7 @@ def now_playing():
     payload = {
         'artist_data': [],
         'listeners': sum([x['listeners'] for x in sources]),
+        'mixes_db_url': None,
         'title': sources[0]['title'],
     }
 
@@ -102,19 +108,26 @@ def now_playing():
         head = sheet.row_values(1)
         row_values = sheet.row_values(cell.row)
         row = dict(zip_longest(head, row_values, fillvalue=''))
+
+        # Get artist metadata from Discogs
+        artist_data = []
         artist_ids = [
             int(x.strip()) for x
             in str(row['discogs_artist_ids']).split(',') if x
         ]
-
-        # Get artist metadata from Discogs
         for artist_id in artist_ids:
-            payload['artist_data'].extend(get_artist_data(artist_id))
+            artist_data.extend(get_artist_data(artist_id))
 
         # Munge the audio file metadata to a somewhat standardized format
         title = sources[0]['title']
         title = ' '.join([x.title() for x in title.split('.')[:-1]])
-        payload['title'] = title
+
+        # Assemble a payload for the response
+        payload.update({
+            'artist_data': artist_data,
+            'mixes_db_url': row['mixes_db_url'],
+            'title': title,
+        })
 
     except Exception:
         # If we get here there's a good chance someone is live streaming which
@@ -123,7 +136,10 @@ def now_playing():
 
     # Cache and return the new response
     cache.set(cache_key, json.dumps(payload))
-    return jsonify(payload), status_codes.OK
+    return (
+        render_template('now-playing.html', data=payload),
+        status_codes.OK
+    )
 
 
 @app.route('/upload', methods=['GET', 'POST'])

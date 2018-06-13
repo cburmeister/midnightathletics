@@ -1,43 +1,37 @@
 {% extends 'template.html' %}
 
 {% block body %}
-    <div class="container mt-3 mb-3">
-        <div class="card">
-            <div class="card-header">
-                Now Playing
-            </div>
-            <div class="card-body">
-                <p><span id="now-playing">...</span></p>
-                <p class="mb-0"><span id="num-listeners">Listening: ...</span></p>
-            </div>
-        </div>
+    <div id="now-playing">
     </div>
-    <div class="container mb-3">
-        <div class="card">
-            <div class="card-header">
-                Don't want to use our player?
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">Don't want to use our player?</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Use these links:
+                            <a href="http://radio.midnightathletics.com/stream.mp3" target="_blank">192k</a> MP3,
+                            <a href="http://radio.midnightathletics.com/stream128.aac" target="_blank">128k</a> &amp;
+                            <a href="http://radio.midnightathletics.com/stream64.aac" target="_blank">64k</a> AAC.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <p class="mb-0">
-                    Use these links:
-                    <a href="http://radio.midnightathletics.com/stream.mp3" target="_blank">192k</a> MP3,
-                    <a href="http://radio.midnightathletics.com/stream128.aac" target="_blank">128k</a> &amp;
-                    <a href="http://radio.midnightathletics.com/stream64.aac" target="_blank">64k</a> AAC.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="container mb-3">
-        <div class="card">
-            <div class="card-header">
-                    Want to contribute?
-            </div>
-            <div class="card-body">
-                <p>
-                    Open an issue <a href="https://github.com/cburmeister/midnightathletics/issues" target="_blank">here</a>
-                    or <a href="mailto:burmeister.corey@gmail.com" target="_blank">contact me</a>.
-                </p>
-                <p class="mb-0">You can also buy me a beer <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HVRCBXZJENFMC" target="_blank">here</a>.</p>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Want to contribute?</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Open an issue <a href="https://github.com/cburmeister/midnightathletics/issues" target="_blank">here</a>
+                            or <a href="mailto:burmeister.corey@gmail.com" target="_blank">contact me</a>.
+                        </p>
+                        <p class="card-text">
+                            You can also buy me a beer
+                            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HVRCBXZJENFMC" target="_blank">here</a>.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

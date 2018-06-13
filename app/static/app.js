@@ -3,11 +3,8 @@ const player = new Plyr("#player", {
 });
 
 function poll_icecast_status() {
-    $.getJSON("http://midnightathletics.com/now-playing", function(json) {
-        $("#now-playing").text(json.title);
-        $("#num-listeners").text("Listeners: " + json.listeners);
-    });
+    $("#now-playing").load("http://midnightathletics.com/now-playing");
 }
 
 poll_icecast_status();
-setInterval(poll_icecast_status, 10000);
+setInterval(poll_icecast_status, 1000 * 300);  // 5 Minutes
