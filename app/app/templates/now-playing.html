@@ -18,7 +18,7 @@
                             <a href="{{ artist.uri }}" target="_blank">{{ artist.name }}</a>
                         </h5>
                         {% if artist.profile %}
-                            <p class="card-text">{{ artist.profile|truncate }}</p>
+                            <p class="card-text">{{ artist.profile_html|truncate|safe }}</p>
                         {% endif %}
                     </div>
                 </div>

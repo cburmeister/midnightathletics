@@ -1,20 +1,28 @@
 import os
 
-import discogs_client
+import requests
 
-
-discogs_client = discogs_client.Client(
-    'MidnightAthleticsRadio/0.0.1',
-    user_token=os.environ['DISCOGS_API_TOKEN']
-)
+BASE_URL = 'https://api.discogs.com'
+HEADERS = {
+    'Accept': 'application/vnd.discogs.v2.html+json',
+    'User-Agent': 'MidnightAthleticsRadio/0.0.1',
+    'Authorization': 'Discogs token={}'.format(
+        os.environ['DISCOGS_API_TOKEN']
+    ),
+}
 
 
 def get_artist_data(artist_id):
     """Returns Discogs artist data for the given artist id."""
     data = []
-    artist = discogs_client.artist(artist_id)
-    if not artist:
-        return
-    for artist in [artist] + artist.members:
-        data.append(artist.data)
+    url = '{}/artists/{}'.format(BASE_URL, str(artist_id))
+    response = requests.get(url, headers=HEADERS)
+    response.raise_for_status()
+    artist_data = response.json()
+    data.append(artist_data)
+    for member in artist_data.get('members', []):
+        response = requests.get(url, headers=HEADERS)
+        response.raise_for_status()
+        artist_data = response.json()
+        data.append(artist_data)
     return data
