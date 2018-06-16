@@ -26,10 +26,10 @@ if [ -n "$ICECAST_SOURCE_PASSWORD" ]; then
 fi
 
 # Recycle the docker compose services
-docker-compose build
-docker-compose stop
-docker-compose rm --force
-docker-compose up -d --no-recreate
+docker-compose build $1
+docker-compose stop $1
+docker-compose rm --force $1
+docker-compose up -d --no-recreate $1
 
 # Set the crontab
 crontab < /root/midnightathletics/bin/crontab.txt
