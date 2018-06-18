@@ -21,6 +21,7 @@ def get_artist_data(artist_id):
     artist_data = response.json()
     data.append(artist_data)
     for member in artist_data.get('members', []):
+        url = '{}/artists/{}'.format(BASE_URL, str(member['id']))
         response = requests.get(url, headers=HEADERS)
         response.raise_for_status()
         artist_data = response.json()
