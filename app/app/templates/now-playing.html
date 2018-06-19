@@ -54,6 +54,18 @@
                                     <li class="list-group-item"><a href="{{ url }}" target="_blank">Mixcloud</a></li>
                                 {% elif 'youtube' in url %}
                                     <li class="list-group-item"><a href="{{ url }}" target="_blank">YouTube</a></li>
+                                {% elif 'google' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Google</a></li>
+                                {% elif 'songkick' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Songkick</a></li>
+                                {% elif 'wikipedia' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Wikipedia</a></li>
+                                {% elif 'reverbnation' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Reverb</a></li>
+                                {% elif 'tumblr' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Tumblr</a></li>
+                                {% elif 'bandcamp' in url %}
+                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Bandcamp</a></li>
                                 {% else %}
                                     <li class="list-group-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
                                 {% endif %}
