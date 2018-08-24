@@ -67,7 +67,11 @@
                                 {% elif 'bandcamp' in url %}
                                     <li class="list-group-item"><a href="{{ url }}" target="_blank">Bandcamp</a></li>
                                 {% else %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+                                    <li class="list-group-item">
+                                        <a href="{{ url }}" target="_blank">
+                                            {{ url|replace('https://', '')|replace('http://', '') }}
+                                        </a>
+                                    </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
