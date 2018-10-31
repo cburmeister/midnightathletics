@@ -25,7 +25,7 @@ app.jinja_env.globals.update({
         'Commercial free radio featuring contemporary underground dance '
         'music from around the world.'
     ),
-    'app_url': 'http://midnightathletics.com/',
+    'app_url': 'https://midnightathletics.com/',
 })
 
 auth = HTTPBasicAuth()

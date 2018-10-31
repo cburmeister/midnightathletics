@@ -16,6 +16,7 @@ The following environment variables are *required*:
 | `ICECAST_RELAY_PASSWORD`  | Used when a slave requests the list of streams to relay.      |
 | `ICECAST_SOURCE_PASSWORD` | Used by sources to connect to `icecast`.                      |
 | `ICECAST_VIRTUAL_HOST`    | Hostname of the `icecast` server. (used by `nginx-proxy`)     |
+| `LETSENCRYPT_EMAIL`       | Your email for use with Let's Encrypt.                        |
 | `LIQUIDSOAP_DATA`         | An absolute path to a directory of audio files.               |
 | `LIQUIDSOAP_HARBOR_PORT`  | Port used to connect when livestreaming.                      |
 | `LIQUIDSOAP_VIRTUAL_HOST` | Hostname of the `liquidsoap` server. (used by `nginx-proxy`)  |
