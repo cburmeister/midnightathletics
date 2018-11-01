@@ -3,7 +3,7 @@ const player = new Plyr("#player", {
 });
 
 function poll_icecast_status() {
-    $("#now-playing").load("https://midnightathletics.com/now-playing");
+    $("#now-playing").load("/now-playing");
 }
 
 poll_icecast_status();
