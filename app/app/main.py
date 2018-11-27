@@ -4,7 +4,7 @@ import json
 import os
 import telnetlib
 
-from flask import Flask, abort, flash, render_template, request, jsonify
+from flask import Flask, abort, flash, render_template, request
 from flask_httpauth import HTTPBasicAuth
 from raven.contrib.flask import Sentry
 from requests.status_codes import codes as status_codes
@@ -13,7 +13,7 @@ import requests
 
 from lib.discogs import get_artist_data
 from lib.gsheet import get_google_sheet
-from lib.mix import download_mix, serialize_mix
+from lib.mix import download_mix
 from lib.s3 import upload_file_to_s3
 
 app = Flask(__name__)
@@ -46,29 +46,6 @@ def get_pw(username):
 @app.route('/', methods=['GET'])
 def root():
     return render_template('root.html')
-
-
-@app.route('/mixes', methods=['GET'])
-@auth.login_required
-def mixes():
-    sheet = get_google_sheet()
-    payload = [x['id'] for x in sheet.get_all_records()]
-    return jsonify(payload), status_codes.OK
-
-
-@app.route('/mixes/<id>', methods=['GET'])
-@auth.login_required
-def get_mix(id):
-    sheet = get_google_sheet()
-    try:
-        cell = sheet.find(id)
-    except Exception:
-        abort(404)
-    head = sheet.row_values(1)
-    row_values = sheet.row_values(cell.row)
-    row = dict(zip_longest(head, row_values, fillvalue=''))
-    payload = serialize_mix(row)
-    return jsonify(payload), status_codes.OK
 
 
 @app.route('/now-playing', methods=['GET'])

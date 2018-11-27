@@ -9,16 +9,3 @@ def download_mix(url, filename):
         filename = ydl.prepare_filename(info_dict)
         filename = filename.split('/')[-1]
         return filename
-
-
-def serialize_mix(row):
-    """Returns a mix and its metadata as JSON."""
-    discogs_artist_ids = [
-        int(x.strip()) for x
-        in str(row['discogs_artist_ids']).split(',') if x
-    ]
-    return {
-        'discogs_artist_ids': discogs_artist_ids,
-        'id': row['id'],
-        'mixes_db_url': row['mixes_db_url'],
-    }
