@@ -25,3 +25,15 @@ The following environment variables are *required*:
 | `S3_SECRET_ACCESS_KEY`    | An AWS provisioned secret key used to communicate with s3.    |
 | `SECRET_KEY`              | A secret key required by the `app` to provide authentication. |
 | `SENTRY_DSN`              | A secret required for logging exceptions with Sentry.         |
+
+## Deployment
+
+Deploy an individual container:
+```
+make deploy container=app
+```
+
+Or all of them:
+```
+make deploy
+```
