@@ -1,5 +1,3 @@
-import json
-
 import youtube_dl
 
 

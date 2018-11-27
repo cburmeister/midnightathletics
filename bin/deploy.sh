@@ -31,8 +31,5 @@ docker-compose stop $1
 docker-compose rm --force $1
 docker-compose up -d --no-recreate $1
 
-# Set the crontab
-crontab < /root/midnightathletics/bin/crontab.txt
-
 # Tail the logs to ensure everything booted up correctly
 docker-compose logs -f
