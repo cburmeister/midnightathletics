@@ -45,6 +45,14 @@ def get_pw(username):
 
 @app.route('/', methods=['GET'])
 def root():
+
+    # First attempt to get a cached response
+    cache_key = 'now-playing'
+    stats = cache.get(cache_key)
+    if stats:
+        payload = json.loads(stats)
+        return render_template('root.html', data=payload)
+
     return render_template('root.html')
 
 
@@ -56,10 +64,7 @@ def now_playing():
     stats = cache.get(cache_key)
     if stats:
         payload = json.loads(stats)
-        return (
-            render_template('now-playing.html', data=payload),
-            status_codes.OK
-        )
+        return render_template('now-playing.html', data=payload)
 
     # Otherwise get the now playing title from icecast
     try:

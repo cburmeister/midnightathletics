@@ -2,6 +2,9 @@
 
 {% block body %}
     <div id="now-playing">
+        {% if data %}
+            {% include 'now-playing.html' %}
+        {% endif %}
     </div>
     <div class="container mt-3">
         <div class="row">
