@@ -127,7 +127,27 @@ def now_playing():
 @app.route('/upload', methods=['GET', 'POST'])
 @auth.login_required
 def upload():
-    if request.method == 'POST':
+
+    if request.method == 'POST' and 'mixes' in request.files:
+
+        # Save the mix locally
+        mix = request.files['mixes']
+        mix.save('/data/mixes/{}'.format(mix.filename))
+
+        # Log the mix in the google sheet
+        sheet = get_google_sheet()
+        sheet.append_row([
+            mix.filename,
+            request.form.get('discogs_artist_ids'),
+            request.form.get('mixes_db_url'),
+        ])
+
+        # Ship it to s3 for safekeeping
+        upload_file_to_s3('/data/mixes/{}'.format(mix.filename), mix.filename)
+
+        flash('Uploaded {}'.format(mix.filename), category='success')
+
+    elif request.method == 'POST':
         url = request.form.get('url')
         filename = request.form.get('filename')
         if not url or not filename:
@@ -146,11 +166,13 @@ def upload():
             ])
 
             # Ship it to s3 for safekeeping
-            upload_file_to_s3('/data/mixes/' + filename, filename)
+            upload_file_to_s3('/data/mixes/{}'.format(filename), filename)
 
             flash('Uploaded {}'.format(filename), category='success')
+
         except Exception as e:
             flash(str(e), category='danger')
+
     return render_template('upload.html')
 
 

@@ -9,6 +9,7 @@ services:
       - "443:443"
     restart: always
     volumes:
+      - ./nginx/proxy.conf:/etc/nginx/proxy.conf
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs:ro
       - conf:/etc/nginx/conf.d
