@@ -56,6 +56,29 @@ def root():
     return render_template('root.html')
 
 
+@app.route('/mixes', methods=['GET'])
+@auth.login_required
+def mixes():
+    sheet = get_google_sheet()
+
+    mixes = []
+    for idx, row in enumerate(sheet.get_all_values()):
+        if idx == 0:
+            continue
+        mixes.append({
+            'id': row[0],
+            'discogs_artist_ids': [
+                row.strip() for row in row[1].split(',')
+            ],
+            'mixes_db_url': row[2]
+        })
+
+    data = {
+        'mixes': mixes,
+    }
+    return render_template('mixes.html', data=data)
+
+
 @app.route('/now-playing', methods=['GET'])
 def now_playing():
 

@@ -1,0 +1,28 @@
+{% extends 'template.html' %}
+
+{% block body %}
+    <div class="container mt-3 mb-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Discogs Artist IDs</th>
+                    <th>Mixes DB Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data.mixes %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.discogs_artist_ids }}</td>
+                        <td>
+                            {% if row.mixes_db_url %}
+                                <a href="{{ row.mixes_db_url }}">Link</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
