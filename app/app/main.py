@@ -114,7 +114,7 @@ def now_playing():
     except Exception:
         # If we get here there's a good chance someone is live streaming which
         # is why we don't have any metadata for what's "now playing"
-        pass
+        sentry.captureException()
 
     # Cache and return the new response
     cache.set(cache_key, json.dumps(payload))

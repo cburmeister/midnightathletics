@@ -35,44 +35,10 @@
                     <div class="card">
                         <div class="card-header">Follow them elsewhere</div>
                         <ul class="list-group list-group-flush">
-                            {% for url in artist.urls %}
-                                {% if 'myspace' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">MySpace</a></li>
-                                {% elif 'facebook' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Facebook</a></li>
-                                {% elif 'discogs' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Discogs</a></li>
-                                {% elif 'twitter' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Twitter</a></li>
-                                {% elif 'residentadvisor' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Resident Advisor</a></li>
-                                {% elif 'soundcloud' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Soundcloud</a></li>
-                                {% elif 'instagram' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Instagram</a></li>
-                                {% elif 'mixcloud' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Mixcloud</a></li>
-                                {% elif 'youtube' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">YouTube</a></li>
-                                {% elif 'google' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Google</a></li>
-                                {% elif 'songkick' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Songkick</a></li>
-                                {% elif 'wikipedia' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Wikipedia</a></li>
-                                {% elif 'reverbnation' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Reverb</a></li>
-                                {% elif 'tumblr' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Tumblr</a></li>
-                                {% elif 'bandcamp' in url %}
-                                    <li class="list-group-item"><a href="{{ url }}" target="_blank">Bandcamp</a></li>
-                                {% else %}
-                                    <li class="list-group-item">
-                                        <a href="{{ url }}" target="_blank">
-                                            {{ url|replace('https://', '')|replace('http://', '') }}
-                                        </a>
-                                    </li>
-                                {% endif %}
+                            {% for title, url in artist.urls.items() %}
+                                <li class="list-group-item">
+                                    <a href="{{ url }}" target="_blank">{{ title }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
