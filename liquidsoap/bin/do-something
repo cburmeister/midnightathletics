@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# This "Does something" each time the stream changes...
+#
+
+FILENAME=$1
+echo "Now playing: $FILENAME"

@@ -81,6 +81,7 @@ services:
     user: liquidsoap
     volumes:
       - ${LIQUIDSOAP_DATA}:/data
+      - ./liquidsoap/bin/do-something:/data/bin/do-something
       - ./liquidsoap.liq:/liquidsoap/liquidsoap.liq
       - /etc/localtime:/etc/localtime:ro
 volumes:

@@ -20,6 +20,12 @@ def update_metadata(m) =
 end
 mixes = map_metadata(strip=true, update_metadata, mixes)
 
+# Do something each time the "now playing" metadata changes
+def do_something(m) =
+    system("/data/bin/do-something " ^ quote(m["filename"]))
+end
+mixes = on_metadata(do_something, mixes)
+
 # Add a server command that will skip the current audio file
 def add_skip_command(s) =
     # A command to skip
