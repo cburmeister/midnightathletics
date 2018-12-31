@@ -18,6 +18,8 @@ def update_metadata(m) =
     title = list.nth(list.rev(title), 0)
     [('artist', ''), ('title', '#{title}')]
 end
+
+# ...and tell it to `update_metadata` when playing a new mix
 mixes = map_metadata(strip=true, update_metadata, mixes)
 
 # Add a server command that will skip the current audio file
@@ -38,13 +40,21 @@ def add_skip_command(s) =
 end
 add_skip_command(mixes)
 
+# Setup a source of queued up requests
+requests = request.queue(id='request')
+
+# ...and tell it to `update_metadata` when playing a new mix
+requests = map_metadata(strip=true, update_metadata, requests)
+
 # Configure the live input
 live = input.harbor(
     'live',
     port=int_of_string(getenv('LIQUIDSOAP_HARBOR_PORT')),
     password=getenv('ICECAST_SOURCE_PASSWORD')
 )
-stream = fallback(track_sensitive=false, [live, mixes])
+
+# Assemble the sources in order of priority
+stream = fallback(track_sensitive=false, [live, requests, mixes])
 
 # Stream the output in 192kpbs MP3
 output.icecast(

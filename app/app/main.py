@@ -191,5 +191,23 @@ def skip():
     return 'Mix skipped.', status_codes.OK
 
 
+@app.route('/request/<filename>', methods=['POST'])
+@auth.login_required
+def request_mix(filename):
+
+    # Validate filename
+    sheet = get_google_sheet()
+    cell = sheet.find(filename)
+    if not cell:
+        return 'Mix not found.', status_codes.NOT_FOUND
+
+    # Send skip command to liquidsoap
+    with telnetlib.Telnet('liquidsoap', 1234) as tn:
+        path = '/data/mixes/{}'.format(filename)
+        tn.write('request.push {}'.format(path).encode() + b'\n')
+
+    return 'Mix requested.', status_codes.OK
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
