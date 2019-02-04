@@ -1,0 +1,94 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Midnight Athletics API
+servers:
+  - url: https://midnightathletics.com/
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+paths:
+  /:
+    get:
+      summary: Get the project landing page
+      responses:
+        '200':
+          description: Get the project landing page
+  /now-playing:
+    get:
+      summary: Get details about what's currently playing
+      responses:
+        '200':
+          description: Get details about what's currently playing
+  /request/{filename}:
+    post:
+      security:
+        - basicAuth: []
+      summary: Request a mix
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          description: The filename of the mix to request
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The mix was added to the queue
+        '401':
+          description: Unauthorized
+        '404':
+          description: The requested mix was not found
+  /skip:
+    post:
+      security:
+        - basicAuth: []
+      summary: Skip the current mix
+      responses:
+        '200':
+          description: The mix was skipped
+        '401':
+          description: Unauthorized
+  /upload:
+    get:
+      security:
+        - basicAuth: []
+      summary: Get the form to upload a mix
+      responses:
+        '200':
+          description: Get the project landing page
+    post:
+      security:
+        - basicAuth: []
+      summary: Upload a mix
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                filename:
+                  type: string
+                discogs_artist_ids:
+                  type: string
+                mixes_db_url:
+                  type: string
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                discogs_artist_ids:
+                  type: string
+                mixes_db_url:
+                  type: string
+                mixes:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Uploaded mix
