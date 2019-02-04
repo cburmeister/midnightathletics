@@ -5,6 +5,7 @@ import os
 import telnetlib
 
 from flask import Flask, abort, flash, render_template, request
+from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
 from raven.contrib.flask import Sentry
 from requests.status_codes import codes as status_codes
@@ -35,6 +36,8 @@ auth = HTTPBasicAuth()
 cache = FileSystemCache('/tmp', default_timeout=60)
 
 sentry = Sentry(app)
+
+CORS(app)
 
 
 @auth.get_password

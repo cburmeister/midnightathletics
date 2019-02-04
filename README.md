@@ -3,6 +3,10 @@ midnightathletics
 
 Commercial free radio featuring contemporary underground dance music from around the world.
 
+- https://midnightathletics.com/ - The project website/player
+- https://radio.midnightathletics.com/ - The `Icecast` interface
+- https://dj.midnightathletics.com/ - Path to the live streaming endpoint
+
 ## Configuration
 
 The following environment variables are *required*:
