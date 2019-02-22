@@ -31,9 +31,7 @@ app.jinja_env.globals.update({
 
 auth = HTTPBasicAuth()
 
-# The default TTL for the cache is set to one minute as a simple way to
-# guarantee we only request a resource from the Discogs API once per minute
-cache = FileSystemCache('/tmp', default_timeout=60)
+cache = FileSystemCache('/tmp', default_timeout=60 * 5)
 
 sentry = Sentry(app)
 
