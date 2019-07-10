@@ -5,5 +5,5 @@ discogs_client==2.2.1
 gspread==3.0.0
 oauth2client==4.1.2
 raven[flask]==6.9.0
-requests==2.20.0
+requests==2.22.0
 youtube-dl==2018.08.28
