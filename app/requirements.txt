@@ -1,4 +1,4 @@
-Flask-Cors==3.0.7
+Flask-Cors==3.0.8
 Flask-HTTPAuth==3.3.0
 boto3==1.7.31
 discogs_client==2.2.2
