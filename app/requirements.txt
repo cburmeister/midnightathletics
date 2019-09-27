@@ -1,6 +1,6 @@
 Flask-Cors==3.0.8
 Flask-HTTPAuth==3.3.0
-boto3==1.9.224
+boto3==1.9.237
 discogs_client==2.2.2
 gspread==3.1.0
 oauth2client==4.1.3
