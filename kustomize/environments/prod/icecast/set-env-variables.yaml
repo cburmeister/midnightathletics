@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: icecast
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: icecast-init
+        envFrom:
+        - secretRef:
+            name: icecast-secrets

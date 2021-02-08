@@ -1,0 +1,19 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+  template:
+    spec:
+      containers:
+      - name: app
+        image: registry.digitalocean.com/coreyburmeister/midnightathletics
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 5000
+      imagePullSecrets:
+      - name: coreyburmeister

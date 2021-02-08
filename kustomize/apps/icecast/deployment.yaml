@@ -1,0 +1,38 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: icecast
+spec:
+  selector:
+    matchLabels:
+      app: icecast
+  template:
+    spec:
+      initContainers:
+      - name: icecast-init
+        image: supinf/envsubst
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh"]
+        args: ["-c", "envsubst < /in/icecast.xml.template > /out/icecast.xml"]
+        volumeMounts:
+        - name: icecast-config-template
+          mountPath: /in
+        - name: icecast-config
+          mountPath: /out
+      containers:
+      - name: icecast
+        image: moul/icecast
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8000
+        volumeMounts:
+        - name: icecast-config
+          mountPath: /etc/icecast2/icecast.xml
+          subPath: icecast.xml
+      volumes:
+      - name: icecast-config-template
+        configMap:
+          name: icecast-config
+      - name: icecast-config
+        emptyDir: {}

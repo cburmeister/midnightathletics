@@ -4,21 +4,25 @@ import json
 import os
 import telnetlib
 
-from flask import Flask, abort, flash, render_template, request
+from flask import Flask, abort, render_template
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
-from raven.contrib.flask import Sentry
 from requests.status_codes import codes as status_codes
-from werkzeug.contrib.cache import FileSystemCache
+from flask_caching import Cache
 import requests
 
 from lib.discogs import get_artist_data
 from lib.gsheet import get_google_sheet
-from lib.mix import download_mix
-from lib.s3 import upload_file_to_s3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['CACHE_TYPE'] = 'filesystem'
+app.config['CACHE_DIR'] = '/tmp'
+app.config['CACHE_DEFAULT_TIMEOUT'] = 60 * 5
+
+auth = HTTPBasicAuth()
+cache = Cache(app)
+CORS(app)
 
 app.jinja_env.globals.update({
     'app_title': 'Midnight Athletics Radio',
@@ -28,14 +32,6 @@ app.jinja_env.globals.update({
     ),
     'app_url': 'https://midnightathletics.com/',
 })
-
-auth = HTTPBasicAuth()
-
-cache = FileSystemCache('/tmp', default_timeout=60 * 5)
-
-sentry = Sentry(app)
-
-CORS(app)
 
 
 @auth.get_password
@@ -69,7 +65,9 @@ def now_playing():
 
     # Otherwise get the now playing title from icecast
     try:
-        response = requests.get('http://icecast:8000/status-json.xsl')
+        response = requests.get(
+            os.environ['ICECAST_HOST'] + '/status-json.xsl'
+        )
         response.raise_for_status()
     except Exception:
         abort(503)
@@ -115,7 +113,7 @@ def now_playing():
     except Exception:
         # If we get here there's a good chance someone is live streaming which
         # is why we don't have any metadata for what's "now playing"
-        sentry.captureException()
+        pass
 
     # Cache and return the new response
     cache.set(cache_key, json.dumps(payload))
@@ -125,64 +123,12 @@ def now_playing():
     )
 
 
-@app.route('/upload', methods=['GET', 'POST'])
-@auth.login_required
-def upload():
-
-    if request.method == 'POST' and 'mixes' in request.files:
-
-        # Save the mix locally
-        mix = request.files['mixes']
-        mix.save('/data/mixes/{}'.format(mix.filename))
-
-        # Log the mix in the google sheet
-        sheet = get_google_sheet()
-        sheet.append_row([
-            mix.filename,
-            request.form.get('discogs_artist_ids'),
-            request.form.get('mixes_db_url'),
-        ])
-
-        # Ship it to s3 for safekeeping
-        upload_file_to_s3('/data/mixes/{}'.format(mix.filename), mix.filename)
-
-        flash('Uploaded {}'.format(mix.filename), category='success')
-
-    elif request.method == 'POST':
-        url = request.form.get('url')
-        filename = request.form.get('filename')
-        if not url or not filename:
-            flash('URL and filename required.', category='danger')
-        try:
-
-            # Download mix using youtube-dl
-            filename = download_mix(url, filename)
-
-            # Log the mix in the google sheet
-            sheet = get_google_sheet()
-            sheet.append_row([
-                filename,
-                request.form.get('discogs_artist_ids'),
-                request.form.get('mixes_db_url'),
-            ])
-
-            # Ship it to s3 for safekeeping
-            upload_file_to_s3('/data/mixes/{}'.format(filename), filename)
-
-            flash('Uploaded {}'.format(filename), category='success')
-
-        except Exception as e:
-            flash(str(e), category='danger')
-
-    return render_template('upload.html')
-
-
 @app.route('/skip', methods=['POST'])
 @auth.login_required
 def skip():
 
     # Send skip command to liquidsoap
-    with telnetlib.Telnet('liquidsoap', 1234) as tn:
+    with telnetlib.Telnet(os.environ['LIQUIDSOAP_HOST'], 1234) as tn:
         tn.write(b'stream(dot)mp3.skip' + b'\n')
 
     # Bust the now playing cache
@@ -203,7 +149,7 @@ def request_mix(filename):
         return 'Mix not found.', status_codes.NOT_FOUND
 
     # Send skip command to liquidsoap
-    with telnetlib.Telnet('liquidsoap', 1234) as tn:
+    with telnetlib.Telnet(os.environ['LIQUIDSOAP_HOST'], 1234) as tn:
         path = '/data/mixes/{}'.format(filename)
         tn.write('request.push {}'.format(path).encode() + b'\n')
 

@@ -1,0 +1,8 @@
+bases:
+- ../../../apps/liquidsoap
+patches:
+- set-env-variables.yaml
+- set-volumes.yaml
+resources:
+- pvc.yaml
+- sealed-secrets.yaml

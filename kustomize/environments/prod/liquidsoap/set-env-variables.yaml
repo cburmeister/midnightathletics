@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liquidsoap
+spec:
+  template:
+    spec:
+      containers:
+      - name: liquidsoap
+        envFrom:
+        - secretRef:
+            name: liquidsoap-secrets
+        env:
+        - name: ICECAST_HOST
+          value: icecast.midnightathletics.svc.cluster.local
+        - name: ICECAST_PORT
+          value: '80'
+        - name: LIQUIDSOAP_HARBOR_PORT
+          value: '8800'

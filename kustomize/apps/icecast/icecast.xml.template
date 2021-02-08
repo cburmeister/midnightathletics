@@ -9,10 +9,10 @@
     </http-headers>
 
     <authentication>
-        <source-password>bigproblem</source-password>
-        <relay-password>bigproblem</relay-password>
+        <source-password>${ICECAST_SOURCE_PASSWORD}</source-password>
+        <relay-password>${ICECAST_RELAY_PASSWORD}</relay-password>
         <admin-user>admin</admin-user>
-        <admin-password>bigproblem</admin-password>
+        <admin-password>${ICECAST_ADMIN_PASSWORD}</admin-password>
     </authentication>
 
     <limits>

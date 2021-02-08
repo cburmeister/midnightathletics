@@ -1,0 +1,6 @@
+bases:
+- ../../../apps/icecast
+patches:
+- set-env-variables.yaml
+resources:
+- sealed-secrets.yaml

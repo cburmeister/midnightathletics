@@ -3,3 +3,4 @@
 TODO
 __pycache__
 docker-compose.override.yml
+unsealed-secrets.yaml

@@ -1,0 +1,31 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: liquidsoap
+spec:
+  selector:
+    matchLabels:
+      app: liquidsoap
+  template:
+    spec:
+      securityContext:
+        runAsUser: 102
+        fsGroup: 105
+      containers:
+      - name: liquidsoap
+        image: moul/liquidsoap
+        command: ["liquidsoap", "-v", "--debug", "/liquidsoap/liquidsoap.liq"]
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8800
+        - name: telnet
+          containerPort: 1234
+        volumeMounts:
+        - name: liquidsoap-config
+          mountPath: /liquidsoap/liquidsoap.liq
+          subPath: liquidsoap.liq
+      volumes:
+      - name: liquidsoap-config
+        configMap:
+          name: liquidsoap-config
