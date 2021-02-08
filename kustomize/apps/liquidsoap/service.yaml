@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: liquidsoap
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: telnet
+    port: 1234
+    protocol: TCP
+    targetPort: telnet

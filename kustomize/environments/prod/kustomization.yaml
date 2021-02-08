@@ -1,0 +1,7 @@
+bases:
+- app
+- icecast
+- liquidsoap
+namespace: midnightathletics
+resources:
+- ingress.yaml

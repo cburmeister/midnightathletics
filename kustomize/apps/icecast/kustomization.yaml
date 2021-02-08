@@ -1,0 +1,9 @@
+commonLabels:
+  app: icecast
+configMapGenerator:
+- name: icecast-config
+  files:
+  - icecast.xml.template=icecast.xml.template
+resources:
+- deployment.yaml
+- service.yaml

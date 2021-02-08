@@ -1,0 +1,7 @@
+bases:
+- ../../../apps/app
+patches:
+- set-env-variables.yaml
+- set-volumes.yaml
+resources:
+- sealed-secrets.yaml

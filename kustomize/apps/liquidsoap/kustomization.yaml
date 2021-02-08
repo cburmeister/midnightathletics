@@ -1,0 +1,9 @@
+commonLabels:
+  app: liquidsoap
+configMapGenerator:
+- name: liquidsoap-config
+  files:
+  - liquidsoap.liq=liquidsoap.liq
+resources:
+- deployment.yaml
+- service.yaml

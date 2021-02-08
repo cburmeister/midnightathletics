@@ -1,0 +1,36 @@
+name: CI/CD
+on:
+  push:
+    branches:
+    - master
+jobs:
+  build:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Get branch name
+      run: |
+        echo "BUILD_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    - name: Set BUILD_ID
+      run: |
+        echo "BUILD_ID=${BUILD_BRANCH}-$(date +%Y%m%d%H%M%S)-${GITHUB_SHA}" >> $GITHUB_ENV
+    - name: Set APP_IMAGE
+      run: |
+        echo "APP_IMAGE=cburmeister/midnightathletics:${BUILD_ID}" >> $GITHUB_ENV
+    - name: Build
+      run: |
+        docker build -t ${APP_IMAGE} app
+        cd kustomize/apps/app && kustomize edit set image ${APP_IMAGE}
+    - name: Push
+      run: |
+        docker push ${REFERENCE_IMAGE}
+    - name: Set up kubectl
+      uses: matootie/dokube@v1.3.4
+      with:
+        personalAccessToken: ${{ secrets.DIGITALOCEAN_TOKEN }}
+        clusterName: ${{ secrets.KUBE_CLUSTER_NAME }}
+    - name: Deploy
+      run: |
+        kustomize build kustomize/environments/prod | kubectl apply -f -

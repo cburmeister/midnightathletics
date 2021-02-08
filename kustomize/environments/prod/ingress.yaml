@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: midnightathletics
+spec:
+  rules:
+  - host: midnightathletics.com
+    http:
+      paths:
+      - backend:
+          serviceName: app
+          servicePort: http
+        path: /
+  tls:
+  - hosts:
+    - midnightathletics.com
+    secretName: midnightathletics-tls
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: dj-midnightathletics
+spec:
+  rules:
+  - host: dj.midnightathletics.com
+    http:
+      paths:
+      - backend:
+          serviceName: liquidsoap
+          servicePort: http
+        path: /
+  tls:
+  - hosts:
+    - dj.midnightathletics.com
+    secretName: dj-midnightathletics-tls
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: radio-midnightathletics
+spec:
+  rules:
+  - host: radio.midnightathletics.com
+    http:
+      paths:
+      - backend:
+          serviceName: icecast
+          servicePort: http
+        path: /
+  tls:
+  - hosts:
+    - radio.midnightathletics.com
+    secretName: radio-midnightathletics-tls
