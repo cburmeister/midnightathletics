@@ -5,7 +5,6 @@ Commercial free radio featuring contemporary underground dance music from around
 
 - https://midnightathletics.com/ - The project website/player
 - https://radio.midnightathletics.com/ - The `Icecast` interface
-- https://dj.midnightathletics.com/ - Path to the live streaming endpoint
 
 ## Configuration
 
@@ -32,12 +31,10 @@ The following environment variables are *required*:
 
 ## Deployment
 
-Deploy an individual container:
-```
-make deploy container=app
-```
+There are [Kustomizations](https://kustomize.io/) in the `kustomize` directory
+suitable for deploying this with [Kubernetes](https://kubernetes.io/).
 
-Or all of them:
-```
-make deploy
-```
+## Continuous Integration and Deployment
+
+The configurations in this repository are built, tested and deployed via
+[GitHub Actions](https://github.com/features/actions).
