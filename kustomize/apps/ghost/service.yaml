@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ghost
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http

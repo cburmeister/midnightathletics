@@ -1,0 +1,5 @@
+commonLabels:
+  app: ghost
+resources:
+- deployment.yaml
+- service.yaml

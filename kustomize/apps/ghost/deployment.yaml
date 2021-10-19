@@ -1,0 +1,17 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ghost
+spec:
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    spec:
+      containers:
+      - name: ghost
+        image: ghost:4.16.0-alpine
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 2368

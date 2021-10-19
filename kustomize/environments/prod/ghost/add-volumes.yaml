@@ -1,0 +1,16 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ghost
+spec:
+  template:
+    spec:
+      containers:
+      - name: ghost
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/ghost/content
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: ghost-pvc

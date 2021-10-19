@@ -1,0 +1,8 @@
+bases:
+- ../../../apps/ghost
+resources:
+- pvc.yaml
+- sealed-secrets.yaml
+patches:
+- add-volumes.yaml
+- set-env-variables.yaml

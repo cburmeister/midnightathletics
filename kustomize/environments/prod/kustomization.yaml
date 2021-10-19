@@ -1,5 +1,6 @@
 bases:
 - app
+- ghost
 - icecast
 - liquidsoap
 namespace: midnightathletics

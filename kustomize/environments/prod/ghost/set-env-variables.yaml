@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+spec:
+  template:
+    spec:
+      containers:
+      - name: ghost
+        env:
+        - name: url
+          value: https://blog.midnightathletics.com
+        - name: mail__transport
+          value: SMTP
+        - name: mail__options__auth__user
+          value: postmaster@mg.midnightathletics.com
+        - name: mail__options__service
+          value: Mailgun
+        - name: mail__options__host
+          value: smtp.mailgun.org
+        - name: mail__options__port
+          value: '465'
+        envFrom:
+        - secretRef:
+            name: ghost-secrets
