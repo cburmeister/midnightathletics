@@ -52,11 +52,4 @@ def get_artist_data(artist_id):
     artist_data = response.json()
     artist_data['urls'] = clean_artist_urls(artist_data.get('urls', []))
     data.append(artist_data)
-    for member in artist_data.get('members', []):
-        url = '{}/artists/{}'.format(BASE_URL, str(member['id']))
-        response = requests.get(url, headers=HEADERS)
-        response.raise_for_status()
-        artist_data = response.json()
-        artist_data['urls'] = clean_artist_urls(artist_data.get('urls', []))
-        data.append(artist_data)
     return data
