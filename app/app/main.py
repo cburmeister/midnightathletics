@@ -4,7 +4,7 @@ import json
 import os
 import telnetlib
 
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, jsonify
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
 from requests.status_codes import codes as status_codes
@@ -121,6 +121,73 @@ def now_playing():
         render_template('now-playing.html', data=payload),
         status_codes.OK
     )
+
+
+@app.route('/now-playing-json', methods=['GET'])
+def now_playing_json():
+
+    # First attempt to get a cached response
+    cache_key = 'now-playing'
+    stats = cache.get(cache_key)
+    if stats:
+        payload = json.loads(stats)
+        return jsonify(payload)
+
+    # Otherwise get the now playing title from icecast
+    try:
+        response = requests.get(
+            os.environ['ICECAST_HOST'] + '/status-json.xsl'
+        )
+        response.raise_for_status()
+    except Exception:
+        abort(503)
+    stats = response.json()
+
+    # Begin building a payload for the response
+    sources = stats['icestats']['source']
+    payload = {
+        'artist_data': [],
+        'listeners': sum([x['listeners'] for x in sources]),
+        'mixes_db_url': None,
+        'title': sources[0]['title'],
+    }
+
+    # Get the now playing metadata from the google sheet
+    sheet = get_google_sheet()
+    try:
+        cell = sheet.find(payload['title'])
+        head = sheet.row_values(1)
+        row_values = sheet.row_values(cell.row)
+        row = dict(zip_longest(head, row_values, fillvalue=''))
+
+        # Get artist metadata from Discogs
+        artist_data = []
+        artist_ids = [
+            int(x.strip()) for x
+            in str(row['discogs_artist_ids']).split(',') if x
+        ]
+        for artist_id in artist_ids:
+            artist_data.extend(get_artist_data(artist_id))
+
+        # Munge the audio file metadata to a somewhat standardized format
+        title = sources[0]['title']
+        title = ' '.join([x.title() for x in title.split('.')[:-1]])
+
+        # Assemble a payload for the response
+        payload.update({
+            'artist_data': artist_data,
+            'mixes_db_url': row['mixes_db_url'],
+            'title': title,
+        })
+
+    except Exception:
+        # If we get here there's a good chance someone is live streaming which
+        # is why we don't have any metadata for what's "now playing"
+        pass
+
+    # Cache and return the new response
+    cache.set(cache_key, json.dumps(payload))
+    return jsonify(payload)
 
 
 @app.route('/skip', methods=['POST'])
