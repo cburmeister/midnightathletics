@@ -18,7 +18,7 @@
         <meta name="og:title" content="{{ app_title }}">
         <meta name="og:type" content="music.radio_station">
         <meta name="og:url" content="{{ app_url }}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <title>{{ app_title }}</title>
@@ -53,9 +53,8 @@
                 Your browser does not support the audio element.
             </audio>
         </nav>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
         <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
         <script src="{{ url_for('static', filename='app.js') }}"></script>
     </body>
