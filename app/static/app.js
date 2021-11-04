@@ -36,4 +36,4 @@ function poll_icecast_status() {
     $("#now-playing").load("/now-playing");
 }
 poll_icecast_status();
-setInterval(poll_icecast_status, 1000 * 300);  // 5 Minutes
+setInterval(poll_icecast_status, 1000 * 60);  // 1 Minute
