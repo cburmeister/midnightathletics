@@ -8,6 +8,10 @@ spec:
     port: 8800
     protocol: TCP
     targetPort: http
+  - name: soundcheck
+    port: 8801
+    protocol: TCP
+    targetPort: soundcheck
   - name: telnet
     port: 1234
     protocol: TCP

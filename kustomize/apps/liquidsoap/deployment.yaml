@@ -19,6 +19,8 @@ spec:
         ports:
         - name: http
           containerPort: 8800
+        - name: soundcheck
+          containerPort: 8801
         - name: telnet
           containerPort: 1234
         volumeMounts:

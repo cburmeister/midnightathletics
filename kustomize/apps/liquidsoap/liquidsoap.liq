@@ -100,3 +100,22 @@ output.icecast(
     url='http://radio.midnightathletics.com/stream64.aac',
     fallible=true
 )
+
+# Configure a live input for soundchecks
+soundcheck = input.harbor(
+    'soundcheck',
+    port=int_of_string(getenv('LIQUIDSOAP_HARBOR_PORT_2')),
+    password=getenv('ICECAST_SOURCE_PASSWORD')
+)
+
+# Stream the soundcheck output in 192kpbs MP3
+output.icecast(
+    %mp3(bitrate=192),
+    soundcheck,
+    host=getenv('ICECAST_HOST'),
+    port=int_of_string(getenv('ICECAST_PORT')),
+    password=getenv('ICECAST_SOURCE_PASSWORD'),
+    mount='soundcheck.mp3',
+    name='Soundcheck',
+    fallible=true
+)

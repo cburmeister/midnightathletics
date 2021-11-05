@@ -17,3 +17,5 @@ spec:
           value: '80'
         - name: LIQUIDSOAP_HARBOR_PORT
           value: '8800'
+        - name: LIQUIDSOAP_HARBOR_PORT_2
+          value: '8801'

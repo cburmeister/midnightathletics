@@ -22,6 +22,7 @@ The following environment variables are *required*:
 | `LETSENCRYPT_EMAIL`       | Your email for use with Let's Encrypt.                        |
 | `LIQUIDSOAP_DATA`         | An absolute path to a directory of audio files.               |
 | `LIQUIDSOAP_HARBOR_PORT`  | Port used to connect when livestreaming.                      |
+| `LIQUIDSOAP_HARBOR_PORT_2`| Port used to connect when performing a soundcheck.            |
 | `LIQUIDSOAP_VIRTUAL_HOST` | Hostname of the `liquidsoap` server. (used by `nginx-proxy`)  |
 | `S3_ACCESS_KEY_ID`        | An AWS provisioned secret key id used to communicate with s3. |
 | `S3_BUCKET_NAME`          | The name of the s3 bucket containing audio.                   |
