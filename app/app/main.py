@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 app.config['CACHE_TYPE'] = 'filesystem'
 app.config['CACHE_DIR'] = '/tmp'
-app.config['CACHE_DEFAULT_TIMEOUT'] = 60 * 5
+app.config['CACHE_DEFAULT_TIMEOUT'] = 60 * 1
 
 auth = HTTPBasicAuth()
 cache = Cache(app)
